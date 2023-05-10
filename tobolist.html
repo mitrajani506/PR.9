@@ -1,0 +1,110 @@
+<html>
+<head>
+    <title>tobolist</title>
+</head>
+<style>
+    body{
+        background-color: rgb(31, 139, 234);
+    }
+    .container{
+        margin: 10%;
+    }
+
+    .table{
+        margin: auto;
+        padding: 50px 150px 100px;
+        background-color: #040487;
+        border-radius: 15px;
+    }
+    .table .title{
+        text-align: center;
+        color: white;
+    }
+    .record{
+        color: white;
+    }
+    .btn{
+        padding: 10px;
+        background-color: red;
+        color: white;
+        margin-bottom: 50px;
+
+    }
+    .namein{
+        /* padding: 10px; */
+        font-size: 30px;
+        margin-bottom: 50px;
+    }
+    .deletebtn{
+        background-color: yellow;
+    }
+</style>
+<body>
+    <div class="container">
+        <tbody>
+            <table class="table">
+                <tr>
+                    <td colspan="2"><h1 class="title">Tobo List</h1></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="name" class="namein"></td>
+                    <td><button class="btn" id="save" onclick="save()">Add Task</button></td>
+                </tr>
+                <tbody id="record" class="record">
+        
+                </tbody>
+            </table>
+        </tbody>
+    </div>    
+</body>
+
+<script type="text/javascript">
+    let data=[];
+    viewdata();
+    function save(){
+        let name = document.getElementById('name').value;
+        let obj = {
+            userid : Math.floor(Math.random() * 10000),
+            username : name
+        }
+        if(localStorage.getItem('look')=== null || localStorage.getItem('look')=== undefined){
+            data.push(obj);
+            localStorage.setItem('look',JSON.stringify(data));
+        }else{
+            let val = JSON.parse(localStorage.getItem('look'));
+            val.push(obj);
+            localStorage.setItem('look',JSON.stringify(val));
+        }
+
+        alert("Record successfully insert");
+        document.getElementById('name').value="";
+        viewdata();
+    }
+    function viewdata(){
+        let val = JSON.parse(localStorage.getItem('look'));
+        let tbl = "";
+        for(let i in val){
+            tbl += `
+                        <tr>
+                            <td>${val[i].username}</td>
+                            <td><button class="deletebtn" onclick="deletaData(${val[i].userid})">Deleta</button></td>
+                        </tr>
+                   `
+        }
+        document.getElementById('record').innerHTML = tbl;
+    }
+
+    function deletaData(userid){
+        let val = JSON.parse(localStorage.getItem('look'));
+        for(let i in val){
+            if(val[i].userid === userid){
+                val.splice(i,1);
+            }
+            localStorage.setItem('look',JSON.stringify(val));
+        }
+        alert("Record successfully delet");
+        viewdata();
+    }
+
+</script>
+</html>
