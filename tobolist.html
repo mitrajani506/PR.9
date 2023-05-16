@@ -4,7 +4,12 @@
 </head>
 <style>
     body{
-        background-color: rgb(31, 139, 234);
+        background: radial-gradient(50% 123.47% at 50% 50%, #00ff94 0%, #14cce0 100%),
+                linear-gradient(121.28deg, #669600 0%, #ff0000 100%),
+                linear-gradient(360deg, #0029ff 0%, #8fff00 100%),
+                radial-gradient(100% 164.72% at 100% 100%, #6100ff 0%, #00ff57 100%),
+                radial-gradient(100% 148.07% at 0% 0%, #fff500 0%, #51d500 100%);
+            background-blend-mode: screen, color-dodge, overlay, difference, normal;
     }
     .container{
         margin: 10%;
@@ -13,7 +18,12 @@
     .table{
         margin: auto;
         padding: 50px 150px 100px;
-        background-color: #040487;
+        background: radial-gradient(50% 123.47% at 50% 50%, #34cdf7 0%, #1b77e7 100%),
+                linear-gradient(121.28deg, #669600 0%, #ff0000 100%),
+                linear-gradient(360deg, #0029ff 0%, #8fff00 100%),
+                radial-gradient(100% 164.72% at 100% 100%, #6100ff 0%, #00ff57 100%),
+                radial-gradient(100% 148.07% at 0% 0%, #fff500 0%, #51d500 100%);
+            background-blend-mode: screen, color-dodge, overlay, difference, normal;
         border-radius: 15px;
     }
     .table .title{
@@ -28,7 +38,7 @@
         background-color: red;
         color: white;
         margin-bottom: 50px;
-
+        border-radius: 10%;
     }
     .namein{
         /* padding: 10px; */
@@ -37,6 +47,11 @@
     }
     .deletebtn{
         background-color: yellow;
+        padding: 10px 15px;
+        border-radius: 10%;
+    }
+    .record{
+        font-size: 25px;
     }
 </style>
 <body>
@@ -49,6 +64,7 @@
                 <tr>
                     <td><input type="text" id="name" class="namein"></td>
                     <td><button class="btn" id="save" onclick="save()">Add Task</button></td>
+                    <td><button class="btn" id="save" onclick="clearData()">Clear data</button></td>
                 </tr>
                 <tbody id="record" class="record">
         
@@ -87,7 +103,7 @@
             tbl += `
                         <tr>
                             <td>${val[i].username}</td>
-                            <td><button class="deletebtn" onclick="deletaData(${val[i].userid})">Deleta</button></td>
+                            <td><button class="deletebtn" onclick="deletaData(${val[i].userid})">Delete</button></td>
                         </tr>
                    `
         }
@@ -97,9 +113,19 @@
     function deletaData(userid){
         let val = JSON.parse(localStorage.getItem('look'));
         for(let i in val){
-            if(val[i].userid === userid){
+            if(val[i].userid == userid){
                 val.splice(i,1);
             }
+            localStorage.setItem('look',JSON.stringify(val));
+        }
+        alert("Record successfully delet");
+        viewdata();
+    }
+    function clearData(){
+        let val = JSON.parse(localStorage.getItem('look'));
+        for(let i in val){
+                val.splice(i);
+            
             localStorage.setItem('look',JSON.stringify(val));
         }
         alert("Record successfully delet");
